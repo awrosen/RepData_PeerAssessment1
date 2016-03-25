@@ -11,9 +11,39 @@ Loading and preprocessing the data
 ### What is mean total number of steps taken per day?
 
     steps<-aggregate(steps~date,dat,sum)
-    hist(steps$steps,xlab="No. of steps per day",main=paste("Histogram of No. of steps per day"),breaks=20,col="palegreen4")
+    s<-hist(steps$steps,xlab="No. of steps per day",main=paste("Histogram of No. of steps per day"),breaks=20,col="palegreen4")
 
 ![](Figs/unnamed-chunk-2-1.png)<!-- -->
+
+    print(s)
+
+    ## $breaks
+    ##  [1]     0  1000  2000  3000  4000  5000  6000  7000  8000  9000 10000
+    ## [12] 11000 12000 13000 14000 15000 16000 17000 18000 19000 20000 21000
+    ## [23] 22000
+    ## 
+    ## $counts
+    ##  [1]  2  0  1  1  1  2  1  2  5  2 10  6  6  4  2  5  0  1  0  0  1  1
+    ## 
+    ## $density
+    ##  [1] 3.773585e-05 0.000000e+00 1.886792e-05 1.886792e-05 1.886792e-05
+    ##  [6] 3.773585e-05 1.886792e-05 3.773585e-05 9.433962e-05 3.773585e-05
+    ## [11] 1.886792e-04 1.132075e-04 1.132075e-04 7.547170e-05 3.773585e-05
+    ## [16] 9.433962e-05 0.000000e+00 1.886792e-05 0.000000e+00 0.000000e+00
+    ## [21] 1.886792e-05 1.886792e-05
+    ## 
+    ## $mids
+    ##  [1]   500  1500  2500  3500  4500  5500  6500  7500  8500  9500 10500
+    ## [12] 11500 12500 13500 14500 15500 16500 17500 18500 19500 20500 21500
+    ## 
+    ## $xname
+    ## [1] "steps$steps"
+    ## 
+    ## $equidist
+    ## [1] TRUE
+    ## 
+    ## attr(,"class")
+    ## [1] "histogram"
 
     meansteps<-mean(steps$steps,na.rm=T)
     mediansteps<-median(steps$steps,na.rm=T)
@@ -24,9 +54,13 @@ What is the average daily activity pattern?
 -------------------------------------------
 
     stepinterval<-aggregate(steps~interval,dat,mean,na.rm=T)
-    plot(stepinterval$interval,stepinterval$steps,type="l",xlab="Interval",ylab="Mean no. of steps",main=paste("Plot showing the mean no. of steps per 5 min. interval"),col="midnightblue")
+    s<-plot(stepinterval$interval,stepinterval$steps,type="l",xlab="Interval",ylab="Mean no. of steps",main=paste("Plot showing the mean no. of steps per 5 min. interval"),col="midnightblue")
 
-![](PA1_template_files/figure-markdown_strict/unnamed-chunk-3-1.png)<!-- -->
+![](Figs/unnamed-chunk-3-1.png)<!-- -->
+
+    print(s)
+
+    ## NULL
 
     which.max(stepinterval$steps)
 
@@ -68,9 +102,39 @@ frame.
 ### 4.Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
     steps<-aggregate(steps~date,datc,sum)
-    hist(steps$steps,xlab="No. of steps per day",main=paste("Histogram of No. of steps per day, modified data"),breaks=20,col="maroon")
+    s<-hist(steps$steps,xlab="No. of steps per day",main=paste("Histogram of No. of steps per day, modified data"),breaks=20,col="maroon")
 
 ![](Figs/unnamed-chunk-6-1.png)<!-- -->
+
+    print(s)
+
+    ## $breaks
+    ##  [1]     0  1000  2000  3000  4000  5000  6000  7000  8000  9000 10000
+    ## [12] 11000 12000 13000 14000 15000 16000 17000 18000 19000 20000 21000
+    ## [23] 22000
+    ## 
+    ## $counts
+    ##  [1]  2  0  1  1  1  2  1  2  5  2 18  6  6  4  2  5  0  1  0  0  1  1
+    ## 
+    ## $density
+    ##  [1] 3.278689e-05 0.000000e+00 1.639344e-05 1.639344e-05 1.639344e-05
+    ##  [6] 3.278689e-05 1.639344e-05 3.278689e-05 8.196721e-05 3.278689e-05
+    ## [11] 2.950820e-04 9.836066e-05 9.836066e-05 6.557377e-05 3.278689e-05
+    ## [16] 8.196721e-05 0.000000e+00 1.639344e-05 0.000000e+00 0.000000e+00
+    ## [21] 1.639344e-05 1.639344e-05
+    ## 
+    ## $mids
+    ##  [1]   500  1500  2500  3500  4500  5500  6500  7500  8500  9500 10500
+    ## [12] 11500 12500 13500 14500 15500 16500 17500 18500 19500 20500 21500
+    ## 
+    ## $xname
+    ## [1] "steps$steps"
+    ## 
+    ## $equidist
+    ## [1] TRUE
+    ## 
+    ## attr(,"class")
+    ## [1] "histogram"
 
     meansteps<-mean(steps$steps,na.rm=T)
     mediansteps<-median(steps$steps,na.rm=T)
@@ -85,8 +149,13 @@ Are there differences in activity patterns between weekdays and weekends?
 
 ### 1. Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
 
+    Sys.setlocale("LC_TIME", "en_US.UTF-8")
+
+    ## [1] "en_US.UTF-8"
+
     datc$date<-as.Date(datc$date)
     datc$dayname<-weekdays(datc$date)
+
     weekend<-c("Saturday","Sunday")
     datc$daytype <- as.factor(ifelse(datc$dayname == weekend, "weekend", "weekday"))
 
